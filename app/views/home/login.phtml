@@ -1,14 +1,18 @@
 <div class="flex justify-center">
-    <fieldset class="fieldset w-[600px] bg-base-200 border-base-300 flex flex-col grid justify-items-center rounded-box border p-4 mt-[200px]">
+    <form>
+        <fieldset class="fieldset w-[600px] bg-base-200 border-base-300 flex flex-col grid justify-items-center rounded-box border p-4 mt-[200px]">
 
-        <label class="label mt-5 mb-5">Email</label>
-        <input type="email" placeholder="Digite seu email" class="primary" />
-
-
-        <label class="label mt-5 mb-5">Password</label>
-        <input type="password" placeholder="Digite sua senha" class="input input-accent" />
+            <label for="email" class="label mt-5 mb-5">Email</label>
+            <input type="email" name="username" id="email" placeholder="Digite seu Nome e sobrenome" class="primary" />
 
 
-        <button class="btn btn-neutral mt-4">Login</button>
-    </fieldset>
+            <label class="label mt-5 mb-5">Senha</label>
+            <input type="password" placeholder="Digite sua senha" class="input input-accent" />
+
+            <p>Cadastre-se <a href="/pages/home/new.php">aqui</a></p>
+
+
+            <button class="btn btn-neutral mt-4">Login</button>
+        </fieldset>
+    </form>
 </div>

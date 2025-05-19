@@ -1,0 +1,19 @@
+<div class="flex justify-center">
+    <form action="create.php" method="POST">
+        <fieldset class="fieldset w-[600px] bg-base-200 border-base-300 flex flex-col grid justify-items-center rounded-box border p-4 mt-[200px]">
+
+            <label for="name" class="label mt-5 mb-5">Nome Completo</label>
+            <input type="text" name="full_name[full-name]" id="name" placeholder="Digite seu nome e sobrenome" class="primary" />
+
+
+            <label for="email_register" class="label mt-5 mb-5">Email</label>
+            <input type="email" name="email[email-register]" id="email" placeholder="Digite seu email" class="input input-accent" />
+
+            <label for="senha_register" class="label mt-5 mb-5">Senha</label>
+            <input type="password" name="senha[senha-register]" placeholder="Digite sua seha" class="input input-accent" />
+
+
+            <button class="btn btn-neutral mt-4">Cadastrar</button>
+        </fieldset>
+    </form>
+</div>
