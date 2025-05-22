@@ -1,30 +1,30 @@
-## PR Template
+## Modelo de Pull Request
 
-<!--- Provide a general summary of your changes in the Title above. -->
+<!--- Forneça um resumo geral das suas alterações no título acima. -->
 
-<!-- Autolinked issue URL -->
+<!-- URL do issue vinculado automaticamente -->
 
-Issue: **#ISSUE_NUMBER**
+Issue: **#NUMERO_DO_ISSUE**
 
-### Description
+### Descrição
 
-<!--- Describe your changes in detail -->
+<!--- Descreva suas alterações em detalhes -->
 
-### Types of changes
+### Tipos de alterações
 
-<!--- What types of changes does your code introduce? Put an `x` in all the boxes that apply: -->
+<!--- Que tipo de mudança seu código introduz? Marque com um `x` todas as opções que se aplicam: -->
 
-- [ ] fix: A bug fix
-- [ ] feat: A new feature
-- [ ] refactor: A code change that neither fixes a bug nor adds a feature
-- [ ] enhancement: An enhancement makes something better
-- [ ] test: Adding missing tests or correcting existing tests
-- [ ] perf: A code change that improves performance
-- [ ] docs: Documentation only changes
-- [ ] style: Changes that do not affect the meaning of the code (e.g. prettier format)
-- [ ] ci: Changes to our CI configuration files and scripts
-- [ ] chore: Changes to the build process or auxiliary tools and libraries functionality to not work as expected
+- [ ] fix: Correção de bug
+- [ ] feat: Nova funcionalidade
+- [ ] refactor: Mudança de código que **não** corrige bug nem adiciona funcionalidade
+- [ ] enhancement: Uma melhoria que deixa algo melhor
+- [ ] test: Adição ou correção de testes
+- [ ] perf: Mudança de código que melhora a performance
+- [ ] docs: Alterações **apenas** na documentação
+- [ ] style: Mudança que **não afeta** o funcionamento do código (ex: formatação com Prettier)
+- [ ] ci: Alterações nos arquivos de configuração ou scripts de integração contínua
+- [ ] chore: Alterações no processo de build ou em ferramentas auxiliares que **não afetam o funcionamento da aplicação**
 
 ---
 
-Hours Required:
+### Horas necessárias:

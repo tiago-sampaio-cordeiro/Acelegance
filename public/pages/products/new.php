@@ -30,7 +30,7 @@
                             Dropdown
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="/pages/products/new.php">Cadastrar produtos</a></li>
+                            <li><a class="dropdown-item" href="#">Cadastrar produtos</a></li>
                             <li><a class="dropdown-item" href="#">Ver estoque</a></li>
                             <li>
                                 <hr class="dropdown-divider">
@@ -40,45 +40,22 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+                    <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search" />
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
         </div>
     </nav>
-    <div class="container text-center mt-5">
-        <div class="row">
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="/assets/css/images/pulseira-colar-anel.jpeg" class="card-img-top" style="height:20rem;" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
+
+    <h1>Cadastro de Produtos</h1>
+    <div class="container flex justify-content-center mt-5">
+        <form>
+            <div>
+                <label for="exampleInputEmail1" class="form-label">Nome do produto</label>
+                <input type="email" class="form-control mb-5" id="exampleInputEmail1" aria-describedby="emailHelp">
             </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="/assets/css/images/bracelete.jpeg" class="card-img-top" style="height: 20rem;" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="/assets/css/images/pulseira-centopeia.jpeg" class="card-img-top" style="height: 20rem;" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+            <button type="submit" class="btn btn-primary">Cadastrar</button>
+        </form>
     </div>
 
 </body>
