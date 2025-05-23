@@ -13,7 +13,7 @@ class Product
         public string $name = ''
     ) {}
 
-    public function setId(int $id): void
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -23,9 +23,9 @@ class Product
         return $this->id;
     }
 
-    public function setName(): string
+    public function setName(string $name)
     {
-        return $this->name;
+        $this->name = $name;
     }
 
     public function getName(): string
@@ -35,8 +35,34 @@ class Product
 
     public function save(): bool
     {
+        if ($this->is_valid()) {
+            $this->id = count(file(self::DB_PATH));
+            file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+            return true;
+        }
+        return false;
+    }
 
-        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
-        return true;
+    public function is_valid(): bool
+    {
+        $this->errors = [];
+
+        if (empty($this->name)) {
+            $this->errors['name'] = 'O campo nome do produto não pode ser vazio.';
+        }
+        return empty($this->errors);
+    }
+
+    public function hasErrors(): bool
+    {
+        return empty($this->errors);
+    }
+
+    public function getErrors($index)
+    {
+        if (isset($this->errors[$index])) {
+            return $this->errors[$index];
+        }
+        return null;
     }
 }
