@@ -9,6 +9,11 @@
                     <div class="d-flex justify-content-evenly">
                         <a href="/pages/products/show.php?id=<?= $index ?>" class="btn btn-primary">Detalhes</a>
                         <a href="/pages/products/edit.php?id=<?= $index ?>" class="btn btn-primary">Atualizar</a>
+                        <form action="/pages/products/delete.php" method="POST" class="d-inline">
+                            <input type="hidden" name="_method" value="DELETE" />
+                            <input type="hidden" name="product[id]" value="<?= $index ?>" />
+                            <button type="submit" class="btn btn-danger">Remover</button>
+                        </form>
                     </div>
                 </div>
             </div>
