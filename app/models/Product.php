@@ -65,4 +65,29 @@ class Product
         }
         return null;
     }
+
+    public static function all(): array
+    {
+        $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+
+        return array_map(function ($line, $name) {
+            return new Product(
+                id: $line,
+                name: $name
+            );
+        }, array_keys($products), $products);
+    }
+
+    public static function findById(int $id)
+    {
+
+        $products = self::all();
+
+        foreach ($products as $product) {
+            if ($product->getId() === $id) {
+                return $product;
+            }
+        }
+        return null;
+    }
 }

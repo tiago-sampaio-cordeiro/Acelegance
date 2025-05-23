@@ -1,12 +1,10 @@
 <?php
 
+require '/var/www/app/models/Product.php';
+
 $id = intval($_GET['id']);
 
-define('DB_PATH', '/var/www/database/products.txt');
-
-$products = file(DB_PATH, FILE_IGNORE_NEW_LINES);
-
-$product['name'] = $products[$id];
+$product = Product::findById($id);
 
 $title = "Detalhes do Produto #{$id}";
 

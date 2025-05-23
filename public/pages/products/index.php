@@ -1,8 +1,14 @@
 <?php
 
-define('DB_PATH', '/var/www/database/products.txt');
+require '/var/www/app/models/Product.php';
 
-$products = file(DB_PATH, FILE_IGNORE_NEW_LINES);
+$products = Product::all();
+
+
+
+// define('DB_PATH', '/var/www/database/products.txt');
+
+// $products = file(DB_PATH, FILE_IGNORE_NEW_LINES);
 
 $title = "Produtos";
 
