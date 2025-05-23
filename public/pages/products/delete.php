@@ -1,5 +1,7 @@
 <?php
 
+require '/var/www/app/models/Product.php';
+
 $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
 if ($method !== 'DELETE') {
@@ -7,18 +9,19 @@ if ($method !== 'DELETE') {
     exit;
 }
 
+$param = $_POST['product'];
+$product = Product::findById($param['id']);
 
-$product = $_POST['product'];
+// pode ser usado assim tambem
+// $product = Product::findById(_POST['product']['id']););
 
-$id = $product['id'];
 
-define('DB_PATH', '/var/www/database/products.txt');
-
-$products = file(DB_PATH, FILE_IGNORE_NEW_LINES);
-
-unset($products[$id]);
-$data = implode(PHP_EOL, $products);
-
-file_put_contents(DB_PATH, $data . PHP_EOL);
-
-header('Location: /pages/products');
+if ($product) {
+    $product->delete();
+    header('Location: /pages/products');
+    exit;
+} else {
+    // opcional: log, erro, ou redirecionamento
+    header('Location: /pages/products?error=not_found');
+    exit;
+}

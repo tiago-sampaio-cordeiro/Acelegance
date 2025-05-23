@@ -13,7 +13,7 @@ class Product
         public string $name = ''
     ) {}
 
-    public function setId(int $id): void
+    public function setId(int $id)
     {
         $this->id = $id;
     }
@@ -23,9 +23,9 @@ class Product
         return $this->id;
     }
 
-    public function setName(): string
+    public function setName(string $name)
     {
-        return $this->name;
+        $this->name = $name;
     }
 
     public function getName(): string
@@ -35,8 +35,88 @@ class Product
 
     public function save(): bool
     {
+        if ($this->is_valid()) {
+            if ($this->newRecord()) {
+                $this->id = count(file(self::DB_PATH));
+                file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+            } else {
 
-        file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
-        return true;
+                $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+                $products[$this->id] = $this->name;
+
+                $data = implode(PHP_EOL, $products);
+                file_put_contents(self::DB_PATH, $data . PHP_EOL);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public function delete()
+    {
+        $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        unset($products[$this->id]);
+
+        $data = implode(PHP_EOL, $products);
+        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+    }
+
+
+    public function is_valid(): bool
+    {
+        $this->errors = [];
+
+        if (empty($this->name)) {
+            $this->errors['name'] = 'O campo nome do produto não pode ser vazio.';
+        }
+        return empty($this->errors);
+    }
+
+    public function newRecord(): bool
+    {
+        return $this->id === -1;
+    }
+
+    public function hasErrors(): bool
+    {
+        return empty($this->errors);
+    }
+
+    public function getErrors($index)
+    {
+        if (isset($this->errors[$index])) {
+            return $this->errors[$index];
+        }
+        return null;
+    }
+
+    public static function all(): array
+    {
+        $products = array_values(file(self::DB_PATH, FILE_IGNORE_NEW_LINES));
+
+        return array_filter(array_map(function ($name, $index) {
+            return new Product(
+                id: $index,
+                name: $name
+            );
+        }, $products, array_keys($products)), function ($product) {
+            return trim($product->getName()) !== '';
+        });
+    }
+
+
+
+
+    public static function findById(int $id)
+    {
+
+        $products = self::all();
+
+        foreach ($products as $product) {
+            if ($product->getId() === $id) {
+                return $product;
+            }
+        }
+        return null;
     }
 }
