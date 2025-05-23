@@ -36,12 +36,22 @@ class Product
     public function save(): bool
     {
         if ($this->is_valid()) {
-            $this->id = count(file(self::DB_PATH));
-            file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+            if ($this->newRecord()) {
+                $this->id = count(file(self::DB_PATH));
+                file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+            } else {
+
+                $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+                $products[$this->id] = $this->name;
+
+                $data = implode(PHP_EOL, $products);
+                file_put_contents(self::DB_PATH, $data . PHP_EOL);
+            }
             return true;
         }
         return false;
     }
+
 
     public function is_valid(): bool
     {
@@ -51,6 +61,11 @@ class Product
             $this->errors['name'] = 'O campo nome do produto não pode ser vazio.';
         }
         return empty($this->errors);
+    }
+
+    public function newRecord(): bool
+    {
+        return $this->id === -1;
     }
 
     public function hasErrors(): bool
