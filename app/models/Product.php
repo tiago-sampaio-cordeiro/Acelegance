@@ -52,6 +52,15 @@ class Product
         return false;
     }
 
+    public function delete()
+    {
+        $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        unset($products[$this->id]);
+
+        $data = implode(PHP_EOL, $products);
+        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+    }
+
 
     public function is_valid(): bool
     {
@@ -83,15 +92,20 @@ class Product
 
     public static function all(): array
     {
-        $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $products = array_values(file(self::DB_PATH, FILE_IGNORE_NEW_LINES));
 
-        return array_map(function ($line, $name) {
+        return array_filter(array_map(function ($name, $index) {
             return new Product(
-                id: $line,
+                id: $index,
                 name: $name
             );
-        }, array_keys($products), $products);
+        }, $products, array_keys($products)), function ($product) {
+            return trim($product->getName()) !== '';
+        });
     }
+
+
+
 
     public static function findById(int $id)
     {
