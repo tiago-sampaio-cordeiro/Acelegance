@@ -27,7 +27,7 @@
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
+                            Produtos
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="/pages/products/new.php">Cadastrar produtos</a></li>
@@ -50,8 +50,9 @@
     <h1>
         <?= $title ?>
     </h1>
-
-    <?php require $view ?>
+    <div class="container mt-5 flex justify-content-center">
+        <?php require $view ?>
+    </div>
 
 </body>
 

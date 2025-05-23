@@ -1,9 +1,10 @@
  <div class="container flex justify-content-center mt-5">
-     <form>
+     <form action="create.php" method="POST" class="<?= empty($errors) ? '' : 'was-validated' ?>" novalidate>
          <div>
-             <label for="exampleInputEmail1" class="form-label">Nome do produto</label>
-             <input type="email" class="form-control mb-5" id="exampleInputEmail1" aria-describedby="emailHelp">
+             <label for="product_name" class="form-label">Nome do produto</label>
+             <input type="text" name="product[name]" class="form-control" id="product_name" placeholder="Bracelete, colar, anel, etc.." required />
+             <div class="invalid-feedback"><?= isset($errors['name']) ? $errors['name'] : '' ?></div>
          </div>
-         <button type="submit" class="btn btn-primary">Cadastrar</button>
+         <button type="submit" class="btn btn-primary mt-5">Cadastrar</button>
      </form>
  </div>
