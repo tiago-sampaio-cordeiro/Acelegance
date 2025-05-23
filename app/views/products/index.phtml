@@ -1,32 +1,14 @@
-<div class="row">
-    <div class="col">
-        <div class="card">
-            <img src="/assets/css/images/pulseira-colar-anel.jpeg" class="card-img-top" style="height:20rem;" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    <?php foreach ($products as $index => $product): ?>
+        <div class="col">
+            <div class="card h-100">
+                <img src="/assets/images/bracelete.jpeg" class="card-img-top" style="height: 20rem;" alt="Imagem do produto">
+                <div class="card-body">
+                    <h5 class="card-title"><?= htmlspecialchars($product) ?></h5>
+                    <p class="card-text">Descrição placeholder.</p>
+                    <a href="/pages/products/show.php?id=<?= $index ?>" class="btn btn-primary">Detalhes</a>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="col">
-        <div class="card">
-            <img src="/assets/css/images/bracelete.jpeg" class="card-img-top" style="height: 20rem;" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card">
-            <img src="/assets/css/images/pulseira-centopeia.jpeg" class="card-img-top" style="height: 20rem;" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card’s content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div>
-    </div>
+    <?php endforeach; ?>
 </div>
