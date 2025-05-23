@@ -1,0 +1,12 @@
+ <div class="container flex justify-content-center mt-5">
+     <form action="update.php" method="POST" class="<?= empty($errors) ? '' : 'was-validated' ?>" novalidate>
+         <input type="hidden" name="_method" value="PUT" />
+         <input type="hidden" name="product[id]" value="<?= $product['id'] ?>" />
+         <div>
+             <label for="product_name" class="form-label">Nome do produto</label>
+             <input type="text" name="product[name]" class="form-control" id="product_name" value="<?= $product['name'] ?>" placeholder="Bracelete, colar, anel, etc.." required />
+             <div class="invalid-feedback"><?= isset($errors['name']) ? $errors['name'] : '' ?></div>
+         </div>
+         <button type="submit" class="btn btn-primary mt-5">Atualizar</button>
+     </form>
+ </div>

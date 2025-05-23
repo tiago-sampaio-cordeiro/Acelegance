@@ -6,7 +6,10 @@
                 <div class="card-body">
                     <h5 class="card-title"><?= htmlspecialchars($product) ?></h5>
                     <p class="card-text">Descrição placeholder.</p>
-                    <a href="/pages/products/show.php?id=<?= $index ?>" class="btn btn-primary">Detalhes</a>
+                    <div class="d-flex justify-content-evenly">
+                        <a href="/pages/products/show.php?id=<?= $index ?>" class="btn btn-primary">Detalhes</a>
+                        <a href="/pages/products/edit.php?id=<?= $index ?>" class="btn btn-primary">Atualizar</a>
+                    </div>
                 </div>
             </div>
         </div>
