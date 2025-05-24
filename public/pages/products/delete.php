@@ -1,6 +1,9 @@
 <?php
 
-require '/var/www/app/controllers/Products_controller.php';
+require '/var/www/config/bootstrap.php';
 
-$controller = new Products_controller();
+use App\Controllers\ProductsController;
+
+
+$controller = new ProductsController();
 $controller->destroy();
