@@ -1,7 +1,11 @@
 <?php
-require '/var/www/app/models/Product.php';
 
-class Products_controller
+namespace App\Controllers;
+
+use App\Models\Product;
+
+
+class ProductsController
 {
 
     private string $layout = 'application';
