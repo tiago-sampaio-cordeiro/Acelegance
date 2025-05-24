@@ -11,6 +11,7 @@ services:
       - app-network
   php:
     image: php:8.3.4-fpm
+    working_dir: /var/www
     volumes:
       - .:/var/www
     networks:
@@ -18,6 +19,8 @@ services:
   composer:
     image: composer:2.7.2
     user: 1000:1000
+    environment:
+      - COMPOSER_CACHE_DIR=/app/.cache/composer
     volumes:
       - .:/app
 

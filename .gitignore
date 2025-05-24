@@ -5,3 +5,5 @@
 *.log
 *.temp
 /vendor/
+
+,cache/*
