@@ -1,10 +1,6 @@
 <?php
-require '/var/www/app/models/Product.php';
 
-$title = 'Cadastro de Produtos';
+require '/var/www/app/controllers/Products_controller.php';
 
-$view = '/var/www/app/views/products/new.phtml';
-
-$product = new Product();
-
-require '/var/www/app/views/layouts/application.phtml';
+$controller = new Products_controller();
+$controller->new();

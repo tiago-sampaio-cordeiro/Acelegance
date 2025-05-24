@@ -1,13 +1,8 @@
 <?php
 
-require '/var/www/app/models/Product.php';
+require '/var/www/app/controllers/Products_controller.php';
 
-$id = intval($_GET['id']);
 
-$product = Product::findById($id);
+$controller = new Products_controller();
 
-$title = "Detalhes do Produto #{$id}";
-
-$view = '/var/www/app/views/products/show.phtml';
-
-require '/var/www/app/views/layouts/application.phtml';
+$controller->show();

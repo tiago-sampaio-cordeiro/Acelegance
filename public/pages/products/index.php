@@ -1,11 +1,8 @@
 <?php
 
-require '/var/www/app/models/Product.php';
+require '/var/www/app/controllers/Products_controller.php';
 
-$products = Product::all();
 
-$title = "Produtos";
+$controller = new Products_controller();
 
-$view = '/var/www/app/views/products/index.phtml';
-
-require '/var/www/app/views/layouts/application.phtml';
+$controller->index();
