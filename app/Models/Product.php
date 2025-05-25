@@ -15,7 +15,8 @@ class Product
     public function __construct(
         private int $id = -1,
         public string $name = ''
-    ) {}
+    ) {
+    }
 
     public function setId(int $id): void
     {

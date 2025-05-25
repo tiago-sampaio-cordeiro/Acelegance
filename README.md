@@ -40,6 +40,31 @@ ou
 $ ./run up -d
 ```
 
+#### Run the tests
+
+```
+$ docker compose run --rm php ./vendor/bin/phpunit tests --color
+```
+
+ou
+
+```
+$ ./run test
+```
+
+Run the Linters
+
+```
+$ ./run phpcs
+```
+
+```
+$ ./run phpstan
+```
+
+Access [localhost](http://localhost)
+
+<!--
 #### Create database and tables
 
 ```
@@ -55,13 +80,8 @@ $ ./run db:populate
 ### Fixed uploads folder permission
 
 ```
-sudo chown www-data:www-data public/assets/uploads
-```
-
-#### Run the tests
+sudo chown www-data:www-data public/assets/uploads -->
 
 ```
-$ docker compose run --rm php ./vendor/bin/phpunit tests --color
-```
 
-Access [localhost](http://localhost)
+```
