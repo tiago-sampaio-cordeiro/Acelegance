@@ -4,10 +4,8 @@ namespace App\Controllers;
 
 use App\Models\Product;
 
-
 class ProductsController
 {
-
     private string $layout = 'application';
 
     public function index()
