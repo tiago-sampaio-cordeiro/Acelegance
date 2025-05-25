@@ -14,7 +14,7 @@ jobs:
           ref: ${{ github.event.pull_request.head.sha }}
 
       - name: Composer install
-        run: ./composer install
+        run: ./run composer install
 
       - name: PHPUnit
         run: ./run test
