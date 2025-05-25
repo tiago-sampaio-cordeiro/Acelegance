@@ -5,8 +5,6 @@ namespace App\Models;
 class Product
 {
 
-    const DB_PATH = '/var/www/database/products.txt';
-
     private array $errors = [];
 
 
@@ -39,15 +37,15 @@ class Product
     {
         if ($this->is_valid()) {
             if ($this->newRecord()) {
-                $this->id = count(file(self::DB_PATH));
-                file_put_contents(self::DB_PATH, $this->name . PHP_EOL, FILE_APPEND);
+                $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
+                file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
             } else {
 
-                $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+                $products = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
                 $products[$this->id] = $this->name;
 
                 $data = implode(PHP_EOL, $products);
-                file_put_contents(self::DB_PATH, $data . PHP_EOL);
+                file_put_contents(self::DB_PATH(), $data . PHP_EOL);
             }
             return true;
         }
@@ -56,11 +54,11 @@ class Product
 
     public function delete()
     {
-        $products = file(self::DB_PATH, FILE_IGNORE_NEW_LINES);
+        $products = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
         unset($products[$this->id]);
 
         $data = implode(PHP_EOL, $products);
-        file_put_contents(self::DB_PATH, $data . PHP_EOL);
+        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
     }
 
 
@@ -94,7 +92,10 @@ class Product
 
     public static function all(): array
     {
-        $products = array_values(file(self::DB_PATH, FILE_IGNORE_NEW_LINES));
+        if (!file_exists(self::DB_PATH())) {
+            return [];
+        }
+        $products = array_values(file(self::DB_PATH(), FILE_IGNORE_NEW_LINES));
 
         return array_filter(array_map(function ($name, $index) {
             return new Product(
@@ -120,5 +121,10 @@ class Product
             }
         }
         return null;
+    }
+
+    private static function DB_PATH(): string
+    {
+        return DATABASE_PATH . $_ENV['DB_NAME'];
     }
 }
