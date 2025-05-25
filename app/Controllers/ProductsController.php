@@ -6,9 +6,8 @@ use App\Models\Product;
 
 class ProductsController
 {
-    private string $layout = 'application';
 
-    public function index()
+    public function index(): void
     {
 
         $products = Product::all();
@@ -18,7 +17,7 @@ class ProductsController
         $this->render('index', compact('products', 'title'));
     }
 
-    public function show()
+    public function show(): void
     {
         $id = intval($_GET['id']);
 
@@ -30,7 +29,7 @@ class ProductsController
     }
 
 
-    public function new()
+    public function new(): void
     {
         $title = 'Cadastro de Produtos';
 
@@ -41,7 +40,7 @@ class ProductsController
         $this->render('new', compact('product', 'title'));
     }
 
-    public function create()
+    public function create(): void
     {
         $method = $_SERVER['REQUEST_METHOD'];
 
@@ -60,7 +59,7 @@ class ProductsController
         }
     }
 
-    public function edit()
+    public function edit(): void
     {
         $id = intval($_GET['id']);
 
@@ -71,7 +70,7 @@ class ProductsController
         $this->render('edit', compact('product', 'title'));
     }
 
-    public function update()
+    public function update(): void
     {
 
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
@@ -86,19 +85,17 @@ class ProductsController
         $product = Product::findById($params['id']);
         $product->setName($params['name']);
 
-        if ($product->save()) {
+        $result = $product->save();
+
+        if ($result) {
             $this->redirectTo('/pages/products');
         } else {
-            if ($product->save()) {
-                header('Location: /pages/products');
-            } else {
-                $title = "Atualizar produto #{$product->getId()}";
-                $this->render('edit', compact('product', 'title'));
-            }
+            $title = "Atualizar produto #{$product->getId()}";
+            $this->render('edit', compact('product', 'title'));
         }
     }
 
-    public function destroy()
+    public function destroy(): void
     {
         $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
 
@@ -115,8 +112,10 @@ class ProductsController
         }
     }
 
-
-    private function render($view, $data = [])
+    /**
+     * @param array<string, mixed> $data
+     */
+    private function render(string $view, array $data = []): void
     {
 
         extract($data);
@@ -124,7 +123,7 @@ class ProductsController
         require '/var/www/app/views/layouts/application.phtml';
     }
 
-    private function redirectTo($location)
+    private function redirectTo(string $location): void
     {
         header('Location: ' . $location);
         exit;
