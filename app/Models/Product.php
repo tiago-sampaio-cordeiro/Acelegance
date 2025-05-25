@@ -4,14 +4,14 @@ namespace App\Models;
 
 class Product
 {
-
     private array $errors = [];
 
 
     public function __construct(
         private int $id = -1,
         public string $name = ''
-    ) {}
+    ) {
+    }
 
     public function setId(int $id)
     {
@@ -35,17 +35,16 @@ class Product
 
     public function save(): bool
     {
-        if ($this->is_valid()) {
+        if ($this->isValid()) {
             if ($this->newRecord()) {
-                $this->id = file_exists(self::DB_PATH()) ? count(file(self::DB_PATH())) : 0;
-                file_put_contents(self::DB_PATH(), $this->name . PHP_EOL, FILE_APPEND);
+                $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
+                file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
             } else {
-
-                $products = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+                $products = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
                 $products[$this->id] = $this->name;
 
                 $data = implode(PHP_EOL, $products);
-                file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+                file_put_contents(self::dbPath(), $data . PHP_EOL);
             }
             return true;
         }
@@ -54,15 +53,15 @@ class Product
 
     public function delete()
     {
-        $products = file(self::DB_PATH(), FILE_IGNORE_NEW_LINES);
+        $products = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
         unset($products[$this->id]);
 
         $data = implode(PHP_EOL, $products);
-        file_put_contents(self::DB_PATH(), $data . PHP_EOL);
+        file_put_contents(self::dbPath(), $data . PHP_EOL);
     }
 
 
-    public function is_valid(): bool
+    public function isValid(): bool
     {
         $this->errors = [];
 
@@ -92,10 +91,10 @@ class Product
 
     public static function all(): array
     {
-        if (!file_exists(self::DB_PATH())) {
+        if (!file_exists(self::dbPath())) {
             return [];
         }
-        $products = array_values(file(self::DB_PATH(), FILE_IGNORE_NEW_LINES));
+        $products = array_values(file(self::dbPath(), FILE_IGNORE_NEW_LINES));
 
         return array_filter(array_map(function ($name, $index) {
             return new Product(
@@ -123,7 +122,7 @@ class Product
         return null;
     }
 
-    private static function DB_PATH(): string
+    private static function dbPath(): string
     {
         return DATABASE_PATH . $_ENV['DB_NAME'];
     }

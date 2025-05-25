@@ -9,7 +9,6 @@ require ROOT_PATH . '/core/debug/functions.php';
 
 class TestCase extends FrameworkTestCase
 {
-
     public function setUp(): void
     {
         require_once '/var/www/core/env/env.php';
