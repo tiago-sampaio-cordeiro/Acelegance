@@ -6,4 +6,8 @@
 *.temp
 /vendor/
 
-,cache/*
+.cache/*
+
+.env
+
+
