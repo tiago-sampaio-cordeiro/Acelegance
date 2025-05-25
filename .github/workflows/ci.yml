@@ -32,7 +32,7 @@ jobs:
         run: ./run composer install
 
       - name: PHPCS
-        run: ./run phpcs
+        run: ./run phpcs .
 
       - name: PHPStan
         run: ./run phpstan
