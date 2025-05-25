@@ -6,7 +6,6 @@ use App\Models\Product;
 
 class ProductsController
 {
-
     public function index(): void
     {
 
