@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Core\Constants\Constants;
+
 class Product
 {
     private array $errors = [];
@@ -124,6 +126,6 @@ class Product
 
     private static function dbPath(): string
     {
-        return DATABASE_PATH . $_ENV['DB_NAME'];
+        return Constants::databasePath()->join($_ENV['DB_NAME']);
     }
 }
