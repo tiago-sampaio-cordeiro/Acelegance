@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Product;
+use Core\Debug\Debugger;
 
 class ProductsController
 {
@@ -10,6 +11,7 @@ class ProductsController
     {
 
         $products = Product::all();
+        Debugger::dd($products, Product::class);
 
         $title = "Produtos";
 
