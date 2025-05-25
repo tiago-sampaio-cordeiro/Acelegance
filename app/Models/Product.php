@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Core\Constants\Constants;
 
-
-
 class Product
 {
     private array $errors = [];
@@ -14,7 +12,8 @@ class Product
     public function __construct(
         private int $id = -1,
         public string $name = ''
-    ) {}
+    ) {
+    }
 
     public function setId(int $id)
     {

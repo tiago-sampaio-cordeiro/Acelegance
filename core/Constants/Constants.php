@@ -4,7 +4,6 @@ namespace Core\Constants;
 
 class Constants
 {
-
     public static function rootPath()
     {
         return new StringPath(dirname(dirname(__DIR__)));
