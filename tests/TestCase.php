@@ -9,8 +9,6 @@ class TestCase extends FrameworkTestCase
 {
     public function setUp(): void
     {
-        require_once '/var/www/core/env/env.php';
-
         $this->clearDatabase();
     }
 
@@ -20,7 +18,7 @@ class TestCase extends FrameworkTestCase
     }
 
 
-    private function clearDatabase()
+    private function clearDatabase(): void
     {
         $file = Constants::databasePath()->join($_ENV['DB_NAME']);
 

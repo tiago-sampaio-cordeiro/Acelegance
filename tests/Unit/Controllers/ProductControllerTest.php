@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class ProductControllerTest extends \Tests\TestCase
 {
-    public function testListAllProducts()
+    public function testListAllProducts(): void
     {
         $products[] = new Product(name: 'Product 1');
         $products[] = new Product(name: 'Product 2');

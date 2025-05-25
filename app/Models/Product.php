@@ -6,16 +6,18 @@ use Core\Constants\Constants;
 
 class Product
 {
+    /**
+     * @var array<string, string>
+     */
     private array $errors = [];
 
 
     public function __construct(
         private int $id = -1,
         public string $name = ''
-    ) {
-    }
+    ) {}
 
-    public function setId(int $id)
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
@@ -25,7 +27,7 @@ class Product
         return $this->id;
     }
 
-    public function setName(string $name)
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
@@ -53,7 +55,7 @@ class Product
         return false;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $products = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
         unset($products[$this->id]);
@@ -83,13 +85,17 @@ class Product
         return empty($this->errors);
     }
 
-    public function getErrors($index)
+    public function getErrors(string $index): string|null
     {
         if (isset($this->errors[$index])) {
             return $this->errors[$index];
         }
         return null;
     }
+
+    /**
+     * @return array<int, Product>
+     */
 
     public static function all(): array
     {
@@ -111,7 +117,7 @@ class Product
 
 
 
-    public static function findById(int $id)
+    public static function findById(int $id): Product|null
     {
 
         $products = self::all();

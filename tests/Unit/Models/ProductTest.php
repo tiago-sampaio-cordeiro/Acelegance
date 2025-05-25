@@ -7,14 +7,14 @@ use Tests\TestCase;
 
 class ProductTest extends TestCase
 {
-    public function testCanSetName()
+    public function testCanSetName(): void
     {
         $product = new Product(name: 'Test Product');
         $product->setName('Test Product');
         $this->assertEquals('Test Product', $product->getName());
     }
 
-    public function testShouldCreateNewProduct()
+    public function testShouldCreateNewProduct(): void
     {
         $product = new Product(name: 'Test Product');
         $this->assertTrue($product->save());
