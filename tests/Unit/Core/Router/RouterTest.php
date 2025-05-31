@@ -67,7 +67,11 @@ class RouterTest extends TestCase
         $_SERVER['REQUEST_METHOD'] = 'GET';
         $_SERVER['REQUEST_URI'] = '/not-found';
 
-        $this->assertFalse($router->dispatch());
+        $output = $this->getOutPut(function () use ($router) {
+            $this->assertFalse($router->dispatch());
+        });
+
+        $this->assertEmpty($output);
     }
 
     // public function test_should_return_a_route_after_add(): void
