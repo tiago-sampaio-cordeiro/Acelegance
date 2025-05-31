@@ -26,4 +26,11 @@ class TestCase extends FrameworkTestCase
             unlink($file);
         }
     }
+
+    protected function getOutPut(callable $callback): string
+    {
+        ob_start();
+        $callback();
+        return ob_get_clean();
+    }
 }
