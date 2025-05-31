@@ -11,7 +11,6 @@ class ProductsController
     {
 
         $products = Product::all();
-        Debugger::dd($products, Product::class);
 
         $title = "Produtos";
 
