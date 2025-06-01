@@ -2,11 +2,9 @@
 
 namespace Tests\Unit\Controllers;
 
-use App\Controllers\ProductsController;
 use App\Models\Product;
-use Tests\TestCase;
 
-class ProductControllerTest extends \Tests\TestCase
+class ProductControllerTest extends ControllerTestCase
 {
     public function testListAllProducts(): void
     {
@@ -17,16 +15,10 @@ class ProductControllerTest extends \Tests\TestCase
             $product->save();
         }
 
-        $controller = new ProductsController();
+        $response = $this->get(action: 'index', controller: 'App\Controllers\ProductsController');
 
-        ob_start();
-
-        $controller->index();
-        $response = ob_get_contents();
-
-
-        ob_end_clean();
-
-        $this->assertMatchesRegularExpression("/{$product->getName()}/", $response);
+        foreach ($products as $product) {
+            $this->assertMatchesRegularExpression("/{$product->getName()}/", $response);
+        }
     }
 }

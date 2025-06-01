@@ -38,7 +38,9 @@ class RouteTest extends TestCase
             }));
         $instanceProperty->setValue(null, $routerMock);
 
-        Route::get('/test', ['TestController', 'test']);
+        $route = Route::get('/test', ['TestController', 'test']);
+        $this->assertInstanceOf(Route::class, $route);
+
 
         // Restore the original instance
         $instanceProperty->setValue(null, $originalInstance);
@@ -140,13 +142,13 @@ class RouteTest extends TestCase
         $this->assertFalse($route->match('GET', '/test'));
     }
 
-    // public function test_name_should_set_the_name_of_the_route(): void
-    // {
-    //     $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
-    //     $route->name('root');
+    public function test_name_should_set_the_name_of_the_route(): void
+    {
+        $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
+        $route->name('root');
 
-    //     $this->assertEquals('root', $route->getName());
-    // }
+        $this->assertEquals('root', $route->getName());
+    }
 
     // public function test_match_should_return_true_if_method_and_uri_with_params_match(): void
     // {

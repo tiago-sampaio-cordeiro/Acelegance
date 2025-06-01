@@ -8,11 +8,16 @@ class Router
 {
     private static Router|null $instance = null;
 
+    /** @var Route[] $routes */
     private array $routes = [];
 
-    private function __construct() {}
+    private function __construct()
+    {
+    }
 
-    private function __clone() {}
+    private function __clone()
+    {
+    }
 
     public static function getInstance(): Router
     {
@@ -22,9 +27,20 @@ class Router
         return self::$instance;
     }
 
-    public function addRoute(Route $route): void
+    public function addRoute(Route $route): Route
     {
         $this->routes[] = $route;
+        return $route;
+    }
+
+    public function getRoutePathByName(string $name): string
+    {
+        foreach ($this->routes as $route) {
+            if ($route->getName() === $name) {
+                return $route->getUri();
+            }
+        }
+        throw new \Exception("Route with name '$name' not found.", 500);
     }
 
     public function dispatch(): object|bool
@@ -46,7 +62,7 @@ class Router
 
         return false;
     }
-    public static function init()
+    public static function init(): void
     {
         require Constants::rootPath()->join('config/routes.php');
         Router::getInstance()->dispatch();

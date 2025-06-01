@@ -4,8 +4,7 @@ namespace Tests\Unit\Core\Router;
 
 class MockController
 {
-
-    public function action()
+    public function action(): void
     {
         echo 'Action Called';
     }
