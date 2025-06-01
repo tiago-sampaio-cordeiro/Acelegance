@@ -2,17 +2,18 @@
 
 namespace Tests\Unit\Core\Router;
 
+use Core\Constants\Constants;
 use Core\Router\Route;
 use Core\Router\Router;
 use Tests\TestCase;
 
 class RouterTest extends TestCase
 {
-    // public function setUp(): void
-    // {
-    //     parent::setUp();
-    //     require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
-    // }
+    public function setUp(): void
+    {
+        parent::setUp();
+        require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
+    }
 
     // public function tearDown(): void
     // {

@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use Core\Debug\Debugger;
+use Core\Http\Request;
 
 class ProductsController
 {
@@ -40,19 +41,14 @@ class ProductsController
         $this->render('new', compact('product', 'title'));
     }
 
-    public function create(): void
+    public function create(Request $request): void
     {
-        $method = $_SERVER['REQUEST_METHOD'];
 
-        if ($method !== 'POST') {
-            $this->redirectTo('/pages/products');
-        }
-
-        $params = $_POST['product'];
-        $product = new Product(name: $params['name']);
+        $params = $request->getParams();
+        $product = new Product(name: $params['product']['name']);
 
         if ($product->save()) {
-            $this->redirectTo('/pages/products');
+            $this->redirectTo(route('products.index'));
         } else {
             $title = 'Cadastro de Produtos';
             $this->render('new', compact('product', 'title'));

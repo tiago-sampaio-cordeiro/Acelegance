@@ -2,6 +2,8 @@
 
 namespace Tests\Unit\Core\Router;
 
+use Core\Constants\Constants;
+use Core\Http\Request;
 use Core\Router\Route;
 use Core\Router\Router;
 use Tests\TestCase;
@@ -46,32 +48,34 @@ class RouteTest extends TestCase
         $instanceProperty->setValue(null, $originalInstance);
     }
 
-    // public function test_should_add_route_to_the_router_method_post(): void
-    // {
-    //     $routerReflection = new \ReflectionClass(Router::class);
-    //     $instanceProperty = $routerReflection->getProperty('instance');
-    //     $instanceProperty->setAccessible(true);
-    //     // Store the original instance
-    //     $originalInstance = $instanceProperty->getValue();
 
-    //     $routerMock = $this->createMock(Router::class);
-    //     $routerMock->expects($this->once())
-    //         ->method('addRoute')
-    //         ->with($this->callback(function ($route) {
-    //             return $route instanceof Route
-    //                 && $route->getMethod() === 'POST'
-    //                 && $route->getUri() === '/test'
-    //                 && $route->getControllerName() === 'TestController'
-    //                 && $route->getActionName() === 'test';
-    //         }));
-    //     $instanceProperty->setValue(null, $routerMock);
 
-    //     $route = Route::post('/test', ['TestController', 'test']);
-    //     $this->assertInstanceOf(Route::class, $route);
+    public function test_should_add_route_to_the_router_method_post(): void
+    {
+        $routerReflection = new \ReflectionClass(Router::class);
+        $instanceProperty = $routerReflection->getProperty('instance');
+        $instanceProperty->setAccessible(true);
+        // Store the original instance
+        $originalInstance = $instanceProperty->getValue();
 
-    //     // Restore the original instance
-    //     $instanceProperty->setValue(null, $originalInstance);
-    // }
+        $routerMock = $this->createMock(Router::class);
+        $routerMock->expects($this->once())
+            ->method('addRoute')
+            ->with($this->callback(function ($route) {
+                return $route instanceof Route
+                    && $route->getMethod() === 'POST'
+                    && $route->getUri() === '/test'
+                    && $route->getControllerName() === 'TestController'
+                    && $route->getActionName() === 'test';
+            }));
+        $instanceProperty->setValue(null, $routerMock);
+
+        $route = Route::post('/test', ['TestController', 'test']);
+        $this->assertInstanceOf(Route::class, $route);
+
+        // Restore the original instance
+        $instanceProperty->setValue(null, $originalInstance);
+    }
 
     // public function test_should_add_route_to_the_router_method_put(): void
     // {
@@ -131,15 +135,15 @@ class RouteTest extends TestCase
     {
         $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
 
-        $this->assertTrue($route->match('GET', '/'));
+        $this->assertTrue($route->match($this->request('GET', '/')));
     }
 
     public function test_match_should_return_false_if_method_and_uri_do_not_match(): void
     {
         $route = new Route(method: 'GET', uri: '/', controllerName: 'MockController', actionName: 'index');
 
-        $this->assertFalse($route->match('POST', '/'));
-        $this->assertFalse($route->match('GET', '/test'));
+        $this->assertFalse($route->match($this->request('POST', '/')));
+        $this->assertFalse($route->match($this->request('GET', '/test')));
     }
 
     public function test_name_should_set_the_name_of_the_route(): void
@@ -179,15 +183,15 @@ class RouteTest extends TestCase
     //     $this->assertTrue($route->match($request));
     // }
 
-    // private function request(string $method, string $uri): Request
-    // {
-    //     require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
+    private function request(string $method, string $uri): Request
+    {
+        require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
 
-    //     $_SERVER['REQUEST_METHOD'] = $method;
-    //     $_SERVER['REQUEST_URI'] = $uri;
-    //     $_REQUEST = [];
-    //     return new Request();
-    // }
+        $_SERVER['REQUEST_METHOD'] = $method;
+        $_SERVER['REQUEST_URI'] = $uri;
+        $_REQUEST = [];
+        return new Request();
+    }
 
     // public function test_add_middleware(): void
     // {
