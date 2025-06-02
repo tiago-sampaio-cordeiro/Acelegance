@@ -18,7 +18,7 @@ class ProductTest extends TestCase
     {
         $product = new Product(name: 'Test Product');
         $this->assertTrue($product->save());
-        $this->assertEquals(0, $product->getId());
+        $this->assertGreaterThan(0, $product->getId());
         $this->assertCount(1, Product::all());
     }
 }

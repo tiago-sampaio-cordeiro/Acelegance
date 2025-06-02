@@ -3,29 +3,24 @@
 namespace Tests;
 
 use Core\Constants\Constants;
+use Core\Database\Database;
 use PHPUnit\Framework\TestCase as FrameworkTestCase;
 
 class TestCase extends FrameworkTestCase
 {
     public function setUp(): void
     {
-        $this->clearDatabase();
+        Database::create();
+        Database::migrate();
     }
 
     public function tearDown(): void
     {
-        $this->clearDatabase();
+        Database::drop();
     }
 
 
-    private function clearDatabase(): void
-    {
-        $file = Constants::databasePath()->join($_ENV['DB_NAME']);
 
-        if (file_exists($file)) {
-            unlink($file);
-        }
-    }
 
     protected function getOutPut(callable $callback): string
     {
