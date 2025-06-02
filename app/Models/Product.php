@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Core\Constants\Constants;
+use Core\Database\Database;
 
 class Product
 {
@@ -41,28 +41,35 @@ class Product
     public function save(): bool
     {
         if ($this->isValid()) {
+            $pdo = Database::getDatabaseConn();
             if ($this->newRecord()) {
-                $this->id = file_exists(self::dbPath()) ? count(file(self::dbPath())) : 0;
-                file_put_contents(self::dbPath(), $this->name . PHP_EOL, FILE_APPEND);
-            } else {
-                $products = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-                $products[$this->id] = $this->name;
+                $sql = 'INSERT INTO products (name) VALUES (:name)';
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':name', $this->name);
 
-                $data = implode(PHP_EOL, $products);
-                file_put_contents(self::dbPath(), $data . PHP_EOL);
+                $stmt->execute();
+                $this->id = (int)$pdo->lastInsertId();
+            } else {
+                $sql = 'UPDATE products SET name = :name WHERE id = :id';
+                $stmt = $pdo->prepare($sql);
+                $stmt->bindParam(':name', $this->name);
+                $stmt->bindParam(':id', $this->id);
+                $stmt->execute();
             }
             return true;
         }
         return false;
     }
 
-    public function delete(): void
+    public function delete(): bool
     {
-        $products = file(self::dbPath(), FILE_IGNORE_NEW_LINES);
-        unset($products[$this->id]);
+        $pdo = Database::getDatabaseConn();
+        $sql = 'DELETE FROM products WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $this->id);
+        $stmt->execute();
 
-        $data = implode(PHP_EOL, $products);
-        file_put_contents(self::dbPath(), $data . PHP_EOL);
+        return ($stmt->rowCount() !== 0);
     }
 
 
@@ -100,19 +107,18 @@ class Product
 
     public static function all(): array
     {
-        if (!file_exists(self::dbPath())) {
-            return [];
-        }
-        $products = array_values(file(self::dbPath(), FILE_IGNORE_NEW_LINES));
+        $products = [];
 
-        return array_filter(array_map(function ($name, $index) {
-            return new Product(
-                id: $index,
-                name: $name
+        $pdo = Database::getDatabaseConn();
+        $resp =  $pdo->query('SELECT id, name FROM products');
+
+        foreach ($resp as $row) {
+            $products[] = new Product(
+                id: (int)$row['id'],
+                name: $row['name']
             );
-        }, $products, array_keys($products)), function ($product) {
-            return trim($product->getName()) !== '';
-        });
+        }
+        return $products;
     }
 
 
@@ -120,19 +126,20 @@ class Product
 
     public static function findById(int $id): Product|null
     {
+        $pdo = Database::getDatabaseConn();
 
-        $products = self::all();
+        $sql = 'SELECT id, name FROM products WHERE id = :id';
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindParam(':id', $id);
+        $stmt->execute();
 
-        foreach ($products as $product) {
-            if ($product->getId() === $id) {
-                return $product;
-            }
+        if ($stmt->rowCount() == 0) {
+            return null;
         }
-        return null;
-    }
-
-    private static function dbPath(): string
-    {
-        return Constants::databasePath()->join($_ENV['DB_NAME']);
+        $row = $stmt->fetch();
+        return new Product(
+            id: (int)$row['id'],
+            name: $row['name']
+        );
     }
 }
