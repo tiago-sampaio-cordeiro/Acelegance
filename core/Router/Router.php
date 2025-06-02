@@ -13,13 +13,9 @@ class Router
     /** @var Route[] $routes */
     private array $routes = [];
 
-    private function __construct()
-    {
-    }
+    private function __construct() {}
 
-    private function __clone()
-    {
-    }
+    private function __clone() {}
 
     public static function getInstance(): Router
     {
@@ -71,7 +67,7 @@ class Router
         return $routePath;
     }
 
-     /**
+    /**
      * @param string $routePath
      * @param mixed[] $params
      * @return string
@@ -104,7 +100,9 @@ class Router
     }
     public static function init(): void
     {
-        require Constants::rootPath()->join('config/routes.php');
-        Router::getInstance()->dispatch();
+        if (!empty($_REQUEST)) {
+            require Constants::rootPath()->join('config/routes.php');
+            Router::getInstance()->dispatch();
+        }
     }
 }
