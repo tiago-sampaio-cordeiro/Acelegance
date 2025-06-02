@@ -3,6 +3,8 @@
 set -o errexit
 set -o pipefail
 
+source .env
+
 function ps {
     docker compose ps
 }
@@ -68,6 +70,10 @@ function phpcbf {
 function phpstan {
     TEST_PATH="${@:-}"
     docker compose run --rm php ./vendor/bin/phpstan ${TEST_PATH}
+}
+
+function db:console {
+    docker compose exec db sh -c "MYSQL_PWD=${DB_PASSWORD} mysql -u ${DB_USERNAME} ${DB_DATABASE}"
 }
 
 
