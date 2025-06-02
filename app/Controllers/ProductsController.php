@@ -18,13 +18,13 @@ class ProductsController
         $this->render('index', compact('products', 'title'));
     }
 
-    public function show(): void
+    public function show(Request $request): void
     {
-        $id = intval($_GET['id']);
+        $params = $request->getParams();
 
-        $product = Product::findById($id);
+        $product = Product::findById($params['id']);
 
-        $title = "Detalhes do Produto #{$id}";
+        $title = "Detalhes do Produto #{$product->getId()}";
 
         $this->render('show', compact('product', 'title'));
     }
@@ -55,56 +55,44 @@ class ProductsController
         }
     }
 
-    public function edit(): void
+    public function edit(Request $request): void
     {
-        $id = intval($_GET['id']);
+        $params = $request->getParams();
 
-        $product = Product::findById($id);
+        $product = Product::findById($params['id']);
 
-        $title = "Edição do Produto #{$id}";
+
+        $title = "Edição do Produto #{$product->getId()}";
 
         $this->render('edit', compact('product', 'title'));
     }
 
-    public function update(): void
+    public function update(Request $request): void
     {
 
-        $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-
-        if ($method !== 'PUT') {
-            $this->redirectTo('/pages/products');
-        }
-
-
-        $params = $_POST['product'];
+        $params = $request->getParams();
 
         $product = Product::findById($params['id']);
-        $product->setName($params['name']);
+        $product->setName($params['product']['name']);
 
-        $result = $product->save();
-
-        if ($result) {
-            $this->redirectTo('/pages/products');
+        if ($product->save()) {
+            $this->redirectTo(route('products.index'));
         } else {
-            $title = "Atualizar produto #{$product->getId()}";
+            $title = "Edição do Produto #{$product->getId()}";
             $this->render('edit', compact('product', 'title'));
         }
     }
 
-    public function destroy(): void
+    public function destroy(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+        $params = $request->getParams();
 
-        if ($method !== 'DELETE') {
-            $this->redirectTo('/pages/products');
-        }
+        $product = Product::findById($params['id']);
 
-        $param = $_POST['product'];
-        $product = Product::findById($param['id']);
 
         if ($product) {
             $product->delete();
-            $this->redirectTo('/pages/products');
+            $this->redirectTo(route('products.index'));
         }
     }
 

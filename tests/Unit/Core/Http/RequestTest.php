@@ -24,46 +24,46 @@ class RequestTest extends TestCase
         unset($_SERVER['HTTP_ACCEPT']);
     }
 
-    public function test_should_return_method(): void
+    public function testShouldReturnMethod(): void
     {
         $request = new Request();
         $this->assertEquals('GET', $request->getMethod());
     }
 
-    public function test_should_return_uri(): void
+    public function testShouldReturnUri(): void
     {
         $request = new Request();
         $this->assertEquals('/test', $request->getUri());
     }
 
-    public function test_should_return_params(): void
+    public function testShouldReturnParams(): void
     {
         $_REQUEST = ['name' => 'John Doe'];
         $request = new Request();
         $this->assertEquals(['name' => 'John Doe'], $request->getParams());
     }
 
-    public function test_should_return_headers(): void
+    public function testShouldReturnHeaders(): void
     {
         $request = new Request();
         $this->assertEquals(getallheaders(), $request->getHeaders());
     }
 
-    // public function test_add_params_should_add_the_params(): void
-    // {
-    //     $request = new Request();
-    //     $params = ['id' => 1];
+    public function testAddParamsShouldAddTheParams(): void
+    {
+        $request = new Request();
+        $params = ['id' => 1];
 
-    //     $this->assertEmpty($request->getParams());
-    //     $request->addParams($params);
+        $this->assertEmpty($request->getParams());
+        $request->addParams($params);
 
-    //     $this->assertEquals($params, $request->getParams());
+        $this->assertEquals($params, $request->getParams());
 
-    //     $otherParams = ['user_id' => 1];
-    //     $request->addParams($otherParams);
+        $otherParams = ['user_id' => 1];
+        $request->addParams($otherParams);
 
-    //     $this->assertEquals(array_merge($params, $otherParams), $request->getParams());
-    // }
+        $this->assertEquals(array_merge($params, $otherParams), $request->getParams());
+    }
 
     // public function test_accept_json_should_return_true_when_accept_Json(): void
     // {

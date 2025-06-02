@@ -15,14 +15,14 @@ class RouterTest extends TestCase
         require_once Constants::rootPath()->join('tests/Unit/Core/Http/header_mock.php');
     }
 
-    // public function tearDown(): void
-    // {
-    //     $routerReflection = new \ReflectionClass(Router::class);
-    //     $instanceProperty = $routerReflection->getProperty('instance');
-    //     $instanceProperty->setValue(null, null);
-    // }
+    public function tearDown(): void
+    {
+        $routerReflection = new \ReflectionClass(Router::class);
+        $instanceProperty = $routerReflection->getProperty('instance');
+        $instanceProperty->setValue(null, null);
+    }
 
-    public function test_singleton_should_return_the_same_object(): void
+    public function testSingletonShouldReturnTheSameObject(): void
     {
         $rOne = Router::getInstance();
         $rTwo = Router::getInstance();
@@ -30,7 +30,7 @@ class RouterTest extends TestCase
         $this->assertSame($rOne, $rTwo);
     }
 
-    public function test_should_not_be_able_to_clone_router(): void
+    public function testShouldNotBeAbleToCloneRouter(): void
     {
         $rOne = Router::getInstance();
 
@@ -38,14 +38,14 @@ class RouterTest extends TestCase
         $rTwo = clone $rOne;
     }
 
-    public function test_should_not_be_able_to_instantiate_router(): void
+    public function testShouldNotBeAbleToInstantiateRouter(): void
     {
         $this->expectException(\Error::class);
         /** @phpstan-ignore-next-line */
         $r = new Router();
     }
 
-    public function test_should_be_possible_to_add_route_to_router(): void
+    public function testShouldBePossibleToAddRouteToRouter(): void
     {
         $router = Router::getInstance();
         $router->addRoute(new Route('GET', '/test', MockController::class, 'action'));
@@ -60,7 +60,7 @@ class RouterTest extends TestCase
         $this->assertEquals('Action Called', $output);
     }
 
-    public function test_should_not_dispatch_if_route_does_not_match(): void
+    public function testShouldNotDispatchIfRouteDoesNotMatch(): void
     {
         $router = Router::getInstance();
         $router->addRoute(new Route('GET', '/test', MockController::class, 'action'));
@@ -75,7 +75,7 @@ class RouterTest extends TestCase
         $this->assertEmpty($output);
     }
 
-    public function test_should_return_a_route_after_add(): void
+    public function testShouldReturnARouteAfterAdd(): void
     {
         $router = Router::getInstance();
         $route = $router->addRoute(new Route('GET', '/test', MockController::class, 'action'));
@@ -83,7 +83,7 @@ class RouterTest extends TestCase
         $this->assertInstanceOf(Route::class, $route);
     }
 
-    public function test_should_get_route_path_by_name(): void
+    public function testShouldGetRoutePathByName(): void
     {
         $router = Router::getInstance();
         $router->addRoute(new Route('GET', '/test', MockController::class, 'action'))->name('test');
@@ -93,37 +93,37 @@ class RouterTest extends TestCase
         $this->assertEquals('/test-1', $router->getRoutePathByName('test.one'));
     }
 
-    // public function test_should_get_route_path_by_name_with_params(): void
-    // {
-    //     $router = Router::getInstance();
-    //     $router->addRoute(new Route('GET', '/test/{id}', MockController::class, 'action'))->name('test');
-    //     $router->addRoute(
-    //         new Route('GET', '/test/{user_id}/test-1/{id}', MockController::class, 'action')
-    //     )->name('test.one');
+    public function testShouldGetRoutePathByNameWithParams(): void
+    {
+        $router = Router::getInstance();
+        $router->addRoute(new Route('GET', '/test/{id}', MockController::class, 'action'))->name('test');
+        $router->addRoute(
+            new Route('GET', '/test/{user_id}/test-1/{id}', MockController::class, 'action')
+        )->name('test.one');
 
-    //     $this->assertEquals('/test/1', $router->getRoutePathByName('test', ['id' => 1]));
-    //     $this->assertEquals('/test/2/test-1/1', $router->getRoutePathByName('test.one', ['id' => 1, 'user_id' => 2]));
-    // }
+        $this->assertEquals('/test/1', $router->getRoutePathByName('test', ['id' => 1]));
+        $this->assertEquals('/test/2/test-1/1', $router->getRoutePathByName('test.one', ['id' => 1, 'user_id' => 2]));
+    }
 
-    // public function test_should_get_route_path_by_name_with_params_with_different_order(): void
-    // {
-    //     $router = Router::getInstance();
-    //     $router->addRoute(
-    //         new Route('GET', '/test/{user_id}/test-1/{id}', MockController::class, 'action')
-    //     )->name('test.one');
+    public function testShouldGetRoutePathByNameWithParamsWithDifferentOrder(): void
+    {
+        $router = Router::getInstance();
+        $router->addRoute(
+            new Route('GET', '/test/{user_id}/test-1/{id}', MockController::class, 'action')
+        )->name('test.one');
 
-    //     $this->assertEquals('/test/2/test-1/1', $router->getRoutePathByName('test.one', ['id' => 1, 'user_id' => 2,]));
-    // }
+        $this->assertEquals('/test/2/test-1/1', $router->getRoutePathByName('test.one', ['id' => 1, 'user_id' => 2,]));
+    }
 
-    // public function test_should_get_route_path_by_name_with_params_and_query_params(): void
-    // {
-    //     $router = Router::getInstance();
-    //     $router->addRoute(new Route('GET', '/test/{id}', MockController::class, 'action'))->name('test');
+    public function testShouldGetRoutePathByNameWithParamsAndQueryParams(): void
+    {
+        $router = Router::getInstance();
+        $router->addRoute(new Route('GET', '/test/{id}', MockController::class, 'action'))->name('test');
 
-    //     $this->assertEquals('/test/1?search=MVC', $router->getRoutePathByName('test', ['id' => 1, 'search' => 'MVC']));
-    // }
+        $this->assertEquals('/test/1?search=MVC', $router->getRoutePathByName('test', ['id' => 1, 'search' => 'MVC']));
+    }
 
-    public function test_should_return_an_exception_if_the_name_does_not_exist(): void
+    public function testShouldReturnAnExceptionIfTheNameDoesNotExist(): void
     {
         $router = Router::getInstance();
         $router->addRoute(new Route('GET', '/test', MockController::class, 'action'))->name('test');

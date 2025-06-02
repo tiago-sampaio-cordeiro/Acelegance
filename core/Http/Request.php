@@ -16,7 +16,9 @@ class Request
 
     public function __construct()
     {
-        $this->method = $_SERVER['_METHOD'] ?? $_SERVER['REQUEST_METHOD'];
+        // $this->method = $_SERVER['_METHOD'] ?? $_SERVER['REQUEST_METHOD'];
+        $this->method = strtoupper($_POST['_method'] ?? $_SERVER['REQUEST_METHOD']);
+
         $this->uri = $_SERVER['REQUEST_URI'];
         $this->params = $_REQUEST;
         $this->headers = getallheaders();
@@ -46,5 +48,11 @@ class Request
     public function getHeaders(): array
     {
         return $this->headers;
+    }
+
+    /** @param mixed[] $params */
+    public function addParams(array $params): void
+    {
+        $this->params = array_merge($this->params, $params);
     }
 }

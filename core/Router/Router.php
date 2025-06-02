@@ -34,14 +34,53 @@ class Router
         return $route;
     }
 
-    public function getRoutePathByName(string $name): string
+    /**
+     * @param string $name
+     * @param mixed[] $params
+     * @return string
+     */
+    public function getRoutePathByName(string $name, array $params = []): string
     {
         foreach ($this->routes as $route) {
             if ($route->getName() === $name) {
-                return $route->getUri();
+                $routePath = $route->getUri();
+                $routePath = $this->replaceRouteParams($routePath, $params);
+                $routePath = $this->appendQueryParams($routePath, $params);
+
+                return $routePath;
             }
         }
         throw new \Exception("Route with name '$name' not found.", 500);
+    }
+
+    /**
+     * @param string $routePath
+     * @param mixed[] $params
+     * @return string
+     */
+    private function replaceRouteParams(string $routePath, &$params): string
+    {
+        foreach ($params as $param => $value) {
+            $routeParam = '{' . $param . '}';
+            if (strPos($routePath, $routeParam) !== false) {
+                $routePath = str_replace($routeParam, $value, $routePath);
+                unset($params[$param]);
+            }
+        }
+        return $routePath;
+    }
+
+     /**
+     * @param string $routePath
+     * @param mixed[] $params
+     * @return string
+     */
+    private function appendQueryParams($routePath, $params): string
+    {
+        if (!empty($params)) {
+            $routePath .= '?' . http_build_query($params);
+        }
+        return $routePath;
     }
 
     public function dispatch(): object|bool
