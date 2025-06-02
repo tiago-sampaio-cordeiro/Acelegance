@@ -7,11 +7,10 @@
                     <h5 class="card-title"><?= $product->getName() ?></h5>
                     <p class="card-text">Descrição placeholder.</p>
                     <div class="d-flex justify-content-evenly">
-                        <a href="/pages/products/show.php?id=<?= $product->getId() ?>" class="btn btn-primary">Detalhes</a>
-                        <a href="/pages/products/edit.php?id=<?= $product->getId() ?>" class="btn btn-primary">Atualizar</a>
-                        <form action="/pages/products/delete.php" method="POST" class="d-inline">
+                        <a href="<?= route('products.show', ['id' => $product->getId()]) ?>" class="btn btn-primary">Detalhes</a>
+                        <a href="<?= route('products.edit', ['id' => $product->getId()]) ?>" class="btn btn-primary">Atualizar</a>
+                        <form action="<?= route('products.destroy', ['id' => $product->getId()]) ?>" method="POST" class="d-inline">
                             <input type="hidden" name="_method" value="DELETE" />
-                            <input type="hidden" name="product[id]" value="<?= $product->getId() ?>" />
                             <button type="submit" class="btn btn-danger">Remover</button>
                         </form>
                     </div>

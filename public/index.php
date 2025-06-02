@@ -1,3 +1,3 @@
 <?php
 
-header('Location: /pages/products/index.php');
+require  __DIR__ . '/../config/bootstrap.php';

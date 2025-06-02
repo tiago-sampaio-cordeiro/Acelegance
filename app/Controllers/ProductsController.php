@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Product;
 use Core\Debug\Debugger;
+use Core\Http\Request;
 
 class ProductsController
 {
@@ -11,20 +12,19 @@ class ProductsController
     {
 
         $products = Product::all();
-        Debugger::dd($products, Product::class);
 
         $title = "Produtos";
 
         $this->render('index', compact('products', 'title'));
     }
 
-    public function show(): void
+    public function show(Request $request): void
     {
-        $id = intval($_GET['id']);
+        $params = $request->getParams();
 
-        $product = Product::findById($id);
+        $product = Product::findById($params['id']);
 
-        $title = "Detalhes do Produto #{$id}";
+        $title = "Detalhes do Produto #{$product->getId()}";
 
         $this->render('show', compact('product', 'title'));
     }
@@ -41,75 +41,58 @@ class ProductsController
         $this->render('new', compact('product', 'title'));
     }
 
-    public function create(): void
+    public function create(Request $request): void
     {
-        $method = $_SERVER['REQUEST_METHOD'];
 
-        if ($method !== 'POST') {
-            $this->redirectTo('/pages/products');
-        }
-
-        $params = $_POST['product'];
-        $product = new Product(name: $params['name']);
+        $params = $request->getParams();
+        $product = new Product(name: $params['product']['name']);
 
         if ($product->save()) {
-            $this->redirectTo('/pages/products');
+            $this->redirectTo(route('products.index'));
         } else {
             $title = 'Cadastro de Produtos';
             $this->render('new', compact('product', 'title'));
         }
     }
 
-    public function edit(): void
+    public function edit(Request $request): void
     {
-        $id = intval($_GET['id']);
+        $params = $request->getParams();
 
-        $product = Product::findById($id);
+        $product = Product::findById($params['id']);
 
-        $title = "Edição do Produto #{$id}";
+
+        $title = "Edição do Produto #{$product->getId()}";
 
         $this->render('edit', compact('product', 'title'));
     }
 
-    public function update(): void
+    public function update(Request $request): void
     {
 
-        $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
-
-        if ($method !== 'PUT') {
-            $this->redirectTo('/pages/products');
-        }
-
-
-        $params = $_POST['product'];
+        $params = $request->getParams();
 
         $product = Product::findById($params['id']);
-        $product->setName($params['name']);
+        $product->setName($params['product']['name']);
 
-        $result = $product->save();
-
-        if ($result) {
-            $this->redirectTo('/pages/products');
+        if ($product->save()) {
+            $this->redirectTo(route('products.index'));
         } else {
-            $title = "Atualizar produto #{$product->getId()}";
+            $title = "Edição do Produto #{$product->getId()}";
             $this->render('edit', compact('product', 'title'));
         }
     }
 
-    public function destroy(): void
+    public function destroy(Request $request): void
     {
-        $method = $_REQUEST['_method'] ?? $_SERVER['REQUEST_METHOD'];
+        $params = $request->getParams();
 
-        if ($method !== 'DELETE') {
-            $this->redirectTo('/pages/products');
-        }
+        $product = Product::findById($params['id']);
 
-        $param = $_POST['product'];
-        $product = Product::findById($param['id']);
 
         if ($product) {
             $product->delete();
-            $this->redirectTo('/pages/products');
+            $this->redirectTo(route('products.index'));
         }
     }
 
